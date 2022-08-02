@@ -1,26 +1,15 @@
-provider "azurerm" {
-  features {}
-}
+module "appservice-lz" {
+  source = "./modules/alz"
 
-locals {
-  // Variables
-  resourceSuffix              = "${var.workloadName}-${var.environment}-${var.location}-001"
-  networkingResourceGroupName = "rgtf-networking-${local.resourceSuffix}"
-  sharedResourceGroupName     = "rgtf-shared-${local.resourceSuffix}"
-  aseResourceGroupName        = "rgtf-ase-${local.resourceSuffix}"
-}
-
-resource "azurerm_resource_group" "networkrg" {
-  name     = local.networkingResourceGroupName
+  workloadName = var.workloadName
+  environment = var.environment
   location = var.location
-}
-
-resource "azurerm_resource_group" "sharedrg" {
-  name     = local.sharedResourceGroupName
-  location = var.location
-}
-
-resource "azurerm_resource_group" "aserg" {
-  name     = local.aseResourceGroupName
-  location = var.location
+  hubVNetNameAddressPrefix = var.hubVNetNameAddressPrefix
+  spokeVNetNameAddressPrefix = var.spokeVNetNameAddressPrefix
+  bastionAddressPrefix = var.bastionAddressPrefix
+  CICDAgentNameAddressPrefix = var.CICDAgentNameAddressPrefix
+  jumpBoxAddressPrefix = var.jumpBoxAddressPrefix
+  aseAddressPrefix = var.aseAddressPrefix
+  numberOfWorkers = var.numberOfWorkers
+  workerPool = var.workerPool
 }
